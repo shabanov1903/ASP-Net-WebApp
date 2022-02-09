@@ -2,15 +2,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace L1_1.DataObject
 {
     internal class ContentDTO
     {
-        public int userId { get; set; }
-        public int id { get; set; }
-        public string? title { get; set; }
-        public string? body { get; set; }
+        [JsonPropertyName("userId")]
+        public int UserId { get; set; }
+        [JsonPropertyName("id")]
+        public int Id { get; set; }
+        [JsonPropertyName("title")]
+        public string? Title { get; set; }
+        [JsonPropertyName("body")]
+        public string? Body { get; set; }
     }
 }
