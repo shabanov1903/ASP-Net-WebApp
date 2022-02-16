@@ -6,37 +6,79 @@ namespace GeekBrains.TimeSheets.API.Services
 {
     public class MapperService
     {
-        public PersonDTO Map(PersonContext context)
+        public UserDTO Map(UserContext context)
         {
-            return new PersonDTO()
+            return new UserDTO()
             {
                 Id = context.Id,
-                FirstName = context.FirstName,
-                LastName = context.LastName,
-                Email = context.Email,
-                Company = context.Company,
-                Age = context.Age
+                Username = context.Username,
+                PasswordHash = ByteToShort(context.PasswordHash),
+                Role = context.Role
             };
         }
 
-        public List<PersonDTO> Map(List<PersonContext> contextlist)
+        public EmployeeDTO Map(EmployeeContext context)
         {
-            var dtoList = new List<PersonDTO>();
-            contextlist.ForEach(elem => dtoList.Add(Map(elem)));
-            return dtoList;
+            return new EmployeeDTO()
+            {
+                Id = context.Id,
+                UserId = context.UserId,
+                IsDeleted = context.IsDeleted
+            };
         }
 
-        public PersonContext Map(PersonDTO dto)
+        public SheetDTO Map(SheetContext context)
         {
-            return new PersonContext()
+            return new SheetDTO()
+            {
+                Id = context.Id,
+                Date = context.Date,
+                EmployeeId = context.EmployeeId,
+                Amount = context.Amount,
+                IsApproved = context.IsApproved,
+                ApprovedDate = context.ApprovedDate
+            };
+        }
+
+        public UserContext Map(UserDTO dto)
+        {
+            return new UserContext()
             {
                 Id = dto.Id,
-                FirstName = dto.FirstName,
-                LastName = dto.LastName,
-                Email = dto.Email,
-                Company = dto.Company,
-                Age = dto.Age
+                Username = dto.Username,
+                PasswordHash = ShortToByte(dto.PasswordHash),
+                Role = dto.Role
             };
+        }
+
+        public EmployeeContext Map(EmployeeDTO dto)
+        {
+            return new EmployeeContext()
+            {
+                Id = dto.Id,
+                UserId = dto.UserId,
+                IsDeleted = dto.IsDeleted
+            };
+        }
+
+        private byte[] ShortToByte(short[] mass)
+        {
+            byte[] outputMass = new byte[mass.Length];
+            for(int i = 0; i < mass.Length; i++)
+            {
+                outputMass[i] = (byte)mass[i];
+            }
+            return outputMass;
+        }
+
+        private short[] ByteToShort(byte[] mass)
+        {
+            short[] outputMass = new short[mass.Length];
+            for (int i = 0; i < mass.Length; i++)
+            {
+                outputMass[i] = mass[i];
+            }
+            return outputMass;
         }
     }
 }

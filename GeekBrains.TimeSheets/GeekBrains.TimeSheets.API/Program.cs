@@ -1,6 +1,7 @@
 using GeekBrains.TimeSheets.API.Services;
-using GeekBrains.TimeSheets.API.Sources;
+using GeekBrains.TimeSheets.DB.Context;
 using GeekBrains.TimeSheets.DB.Repository;
+using static Microsoft.EntityFrameworkCore.SqliteDbContextOptionsBuilderExtensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,8 +13,12 @@ builder.Services.AddSwaggerGen();
 
 // Добавление сервиса самодельного маппера
 builder.Services.AddMapperService();
-// Добавление сервиса связи с хранилищем
-builder.Services.AddSingleton<IRepository>(service => new ListRepository(new Source().ListDataBase));
+// Добавление сервиса базы данных
+var connectionString = builder.Configuration.GetConnectionString("sqlite");
+builder.Services.AddDbContext<TimeSheetsDbContext>(options => options.UseSqlite(connectionString));
+// Регистрация зависимостей
+builder.Services.AddScoped<IRepository<UserContext>, UserRepositiry>();
+builder.Services.AddScoped<IRepository<EmployeeContext>, EmployeeRepositiry>();
 
 var app = builder.Build();
 
