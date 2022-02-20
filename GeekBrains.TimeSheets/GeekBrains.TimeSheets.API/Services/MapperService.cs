@@ -1,6 +1,7 @@
 ﻿using GeekBrains.TimeSheets.API.DTO;
 using GeekBrains.TimeSheets.DB.Context;
 using System.Reflection;
+using System.Text;
 
 namespace GeekBrains.TimeSheets.API.Services
 {
@@ -12,8 +13,10 @@ namespace GeekBrains.TimeSheets.API.Services
             {
                 Id = context.Id,
                 Username = context.Username,
-                PasswordHash = ByteToShort(context.PasswordHash),
-                Role = context.Role
+                PasswordHash = Convert.ToBase64String(context.PasswordHash),
+                Role = context.Role,
+                Salt = Convert.ToBase64String(context.Salt),
+                RefreshToken = context.RefreshToken
             };
         }
 
@@ -46,8 +49,10 @@ namespace GeekBrains.TimeSheets.API.Services
             {
                 Id = dto.Id,
                 Username = dto.Username,
-                PasswordHash = ShortToByte(dto.PasswordHash),
-                Role = dto.Role
+                PasswordHash = Convert.FromBase64String(dto.PasswordHash),
+                Role = dto.Role,
+                Salt = Convert.FromBase64String(dto.Salt),
+                RefreshToken = dto.RefreshToken
             };
         }
 
@@ -59,26 +64,6 @@ namespace GeekBrains.TimeSheets.API.Services
                 UserId = dto.UserId,
                 IsDeleted = dto.IsDeleted
             };
-        }
-
-        private byte[] ShortToByte(short[] mass)
-        {
-            byte[] outputMass = new byte[mass.Length];
-            for(int i = 0; i < mass.Length; i++)
-            {
-                outputMass[i] = (byte)mass[i];
-            }
-            return outputMass;
-        }
-
-        private short[] ByteToShort(byte[] mass)
-        {
-            short[] outputMass = new short[mass.Length];
-            for (int i = 0; i < mass.Length; i++)
-            {
-                outputMass[i] = mass[i];
-            }
-            return outputMass;
         }
     }
 }

@@ -2,31 +2,39 @@
 using GeekBrains.TimeSheets.API.Services;
 using GeekBrains.TimeSheets.DB.Context;
 using GeekBrains.TimeSheets.DB.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using System.Text;
 
 namespace GeekBrains.TimeSheets.API.Controllers
 {
+    [Authorize]
     [Route("[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
     {
         private readonly MapperService _mapper;
+        private readonly UserService _user;
         private readonly IRepository<UserContext> _database;
-        public UsersController(MapperService mapper, IRepository<UserContext> database)
+        public UsersController(MapperService mapper, UserService user, IRepository<UserContext> database)
         {
             _mapper = mapper;
+            _user = user;
             _database = database;
         }
 
+        [AllowAnonymous]
         [HttpPost]
         [Route("add")]
         public async Task<IActionResult> Create([FromBody] UserDTO dto)
         {
             try
             {
+                dto.Salt = Convert.ToBase64String(_user.GetNewSalt());
+                dto.PasswordHash = Convert.ToBase64String(_user.HashPassword(dto.PasswordHash, Convert.FromBase64String(dto.Salt)));
                 await _database.Create(_mapper.Map(dto));
                 return Ok();
             }
@@ -57,13 +65,15 @@ namespace GeekBrains.TimeSheets.API.Controllers
         {
             try
             {
+                dto.Salt = Convert.ToBase64String(_user.GetNewSalt());
+                dto.PasswordHash = Convert.ToBase64String(_user.HashPassword(dto.PasswordHash, Convert.FromBase64String(dto.Salt)));
                 await _database.Update(_mapper.Map(dto));
                 return Ok();
             }
             catch (System.InvalidOperationException)
             {
                 return NotFound();
-            }            
+            }
         }
 
         [HttpDelete]

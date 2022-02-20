@@ -3,6 +3,7 @@ using System;
 using GeekBrains.TimeSheets.DB.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GeekBrains.TimeSheets.DB.Migrations
 {
     [DbContext(typeof(TimeSheetsDbContext))]
-    partial class TimeSheetsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220218092915_lesson5")]
+    partial class lesson5
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.2");
@@ -79,9 +81,6 @@ namespace GeekBrains.TimeSheets.DB.Migrations
 
                     b.Property<string>("Role")
                         .HasColumnType("TEXT");
-
-                    b.Property<byte[]>("Salt")
-                        .HasColumnType("BLOB");
 
                     b.Property<string>("Username")
                         .HasColumnType("TEXT");
