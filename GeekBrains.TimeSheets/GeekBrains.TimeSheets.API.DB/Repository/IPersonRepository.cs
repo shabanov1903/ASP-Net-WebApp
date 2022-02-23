@@ -7,7 +7,10 @@ using System.Threading.Tasks;
 
 namespace GeekBrains.TimeSheets.DB.Repository
 {
-    public interface IRepository
+    /// <summary>
+    /// Иснерфейс для связи с источником данных
+    /// </summary>
+    public interface IPersonRepository
     {
         /// <summary>
         /// Получение объекта по идентификатору

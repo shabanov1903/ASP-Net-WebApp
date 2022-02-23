@@ -13,7 +13,7 @@ builder.Services.AddSwaggerGen();
 // Добавление сервиса самодельного маппера
 builder.Services.AddMapperService();
 // Добавление сервиса связи с хранилищем
-builder.Services.AddSingleton<IRepository>(service => new ListRepository(new Source().ListDataBase));
+builder.Services.AddSingleton<IPersonRepository>(service => new ListRepository(new Source().ListDataBase));
 
 var app = builder.Build();
 

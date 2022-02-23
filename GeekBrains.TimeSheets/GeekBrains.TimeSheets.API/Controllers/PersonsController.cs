@@ -12,11 +12,11 @@ namespace GeekBrains.TimeSheets.API.Controllers
     [ApiController]
     public class PersonsController : ControllerBase
     {
-        private readonly IRepository _dbController;
+        private readonly IPersonRepository _dbRepository;
         private readonly MapperService _mapper;
-        public PersonsController(IRepository dbController, MapperService mapper)
+        public PersonsController(IPersonRepository dbRepository, MapperService mapper)
         {
-            _dbController = dbController;
+            _dbRepository = dbRepository;
             _mapper = mapper;
         }
 
@@ -26,7 +26,7 @@ namespace GeekBrains.TimeSheets.API.Controllers
         {
             try
             {
-                var result = await _dbController.GetPersonByIdAsync(id);
+                var result = await _dbRepository.GetPersonByIdAsync(id);
                 return Ok(_mapper.Map(result));
             }
             catch(PersonFoundException)
@@ -41,7 +41,7 @@ namespace GeekBrains.TimeSheets.API.Controllers
         {
             try
             {
-                var result = await _dbController.GetPersonByNameAsync(searchTerm);
+                var result = await _dbRepository.GetPersonByNameAsync(searchTerm);
                 return Ok(_mapper.Map(result));
             }
             catch (PersonFoundException)
@@ -55,10 +55,10 @@ namespace GeekBrains.TimeSheets.API.Controllers
         {
             try
             {
-                var result = await _dbController.GetPersonsByIdAsync(skip, take);
+                var result = await _dbRepository.GetPersonsByIdAsync(skip, take);
                 return Ok(_mapper.Map(result));
             }
-            catch (PersonFoundException)
+            catch (ArgumentException)
             {
                 return NotFound();
             }
@@ -69,7 +69,7 @@ namespace GeekBrains.TimeSheets.API.Controllers
         {
             try
             {
-                await _dbController.AddPersonAsync(mapper.Map(person));
+                await _dbRepository.AddPersonAsync(mapper.Map(person));
                 return Ok();
             }
             catch (PersonFoundException)
@@ -83,7 +83,7 @@ namespace GeekBrains.TimeSheets.API.Controllers
         {
             try
             {
-                await _dbController.ChangePersonAsync(mapper.Map(person));
+                await _dbRepository.ChangePersonAsync(mapper.Map(person));
                 return Ok();
             }
             catch (PersonFoundException)
@@ -98,7 +98,7 @@ namespace GeekBrains.TimeSheets.API.Controllers
         {
             try
             {
-                await _dbController.DeletePersonByIdAsync(id);
+                await _dbRepository.DeletePersonByIdAsync(id);
                 return Ok();
             }
             catch (PersonFoundException)

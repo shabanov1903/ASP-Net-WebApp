@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace GeekBrains.TimeSheets.DB.Repository
 {
-    public class ListRepository : IRepository
+    public class ListRepository : IPersonRepository
     {
         private List<PersonContext> _listDataBase;
         public ListRepository(List<PersonContext> listDataBase) => _listDataBase = listDataBase;
@@ -62,14 +62,7 @@ namespace GeekBrains.TimeSheets.DB.Repository
             var element = await GetPersonByIdAsync(startId);
             var num = _listDataBase.IndexOf(element);
             return await Task.Run<List<PersonContext>>(() => {
-                try
-                {
-                    return _listDataBase.GetRange(num, quantity);
-                }
-                catch (ArgumentException)
-                {
-                    throw new PersonFoundException("Данный элемент не существует или невозможно сформировать диапазон");
-                }
+                return _listDataBase.GetRange(num, quantity);
             });
         }
     }
