@@ -17,5 +17,6 @@ namespace GeekBrains.TimeSheets.DB.Context
         public string? RefreshToken { get; set; }
 
         public EmployeeContext? Employee { get; set; }
+        public InvoiceContext? Invoice { get; set; }
     }
 }

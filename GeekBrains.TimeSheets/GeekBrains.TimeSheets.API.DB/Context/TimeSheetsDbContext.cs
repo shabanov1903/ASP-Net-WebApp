@@ -15,6 +15,7 @@ namespace GeekBrains.TimeSheets.DB.Context
         public DbSet<UserContext>? Users { get; set; }
         public DbSet<EmployeeContext>? Employees { get; set; }
         public DbSet<SheetContext>? Sheets { get; set; }
+        public DbSet<InvoiceContext>? Invoices { get; set; }
 
         // Регистрация связей модели БД
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -23,10 +24,19 @@ namespace GeekBrains.TimeSheets.DB.Context
                 .HasOne(p => p.Employee)
                 .WithMany(b => b.Sheets);
 
+            modelBuilder.Entity<SheetContext>()
+                .HasOne(p => p.Invoice)
+                .WithMany(b => b.Sheets);
+
             modelBuilder.Entity<UserContext>()
                 .HasOne(p => p.Employee)
                 .WithOne(b => b.User)
                 .HasForeignKey<EmployeeContext>(sa => sa.UserId);
+
+            modelBuilder.Entity<UserContext>()
+                .HasOne(p => p.Invoice)
+                .WithOne(b => b.User)
+                .HasForeignKey<InvoiceContext>(sa => sa.UserId);
         }
     }
 }

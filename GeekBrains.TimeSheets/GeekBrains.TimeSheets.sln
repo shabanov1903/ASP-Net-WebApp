@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeekBrains.TimeSheets.DB", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeekBrains.TimeSheets.API", "GeekBrains.TimeSheets.API\GeekBrains.TimeSheets.API.csproj", "{BCCC94F4-3EAF-4A18-B134-1E09244978C0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeekBrains.TimeSheets.Domain", "GeekBrains.TimeSheets.Domain\GeekBrains.TimeSheets.Domain.csproj", "{26F4BB71-B8B7-45A1-839E-3594329181C5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{BCCC94F4-3EAF-4A18-B134-1E09244978C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BCCC94F4-3EAF-4A18-B134-1E09244978C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BCCC94F4-3EAF-4A18-B134-1E09244978C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{26F4BB71-B8B7-45A1-839E-3594329181C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26F4BB71-B8B7-45A1-839E-3594329181C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26F4BB71-B8B7-45A1-839E-3594329181C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26F4BB71-B8B7-45A1-839E-3594329181C5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -16,5 +16,6 @@ namespace GeekBrains.TimeSheets.DB.Context
         public bool IsApproved { get; protected set; }
         public DateTime ApprovedDate { get; protected set; }
         public EmployeeContext? Employee { get; set; }
+        public InvoiceContext? Invoice { get; set; }
     }
 }
