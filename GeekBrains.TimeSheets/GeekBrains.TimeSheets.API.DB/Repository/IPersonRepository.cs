@@ -7,52 +7,25 @@ using System.Threading.Tasks;
 
 namespace GeekBrains.TimeSheets.DB.Repository
 {
+<<<<<<< HEAD:GeekBrains.TimeSheets/GeekBrains.TimeSheets.API.DB/Repository/IPersonRepository.cs
     /// <summary>
     /// Иснерфейс для связи с источником данных
     /// </summary>
     public interface IPersonRepository
+=======
+    public interface IRepository<TContext>
+>>>>>>> lesson4:GeekBrains.TimeSheets/GeekBrains.TimeSheets.API.DB/Repository/IRepository.cs
     {
-        /// <summary>
-        /// Получение объекта по идентификатору
-        /// </summary>
-        /// <param name="id">Идентификатор</param>
-        /// <returns></returns>
-        Task<PersonContext> GetPersonByIdAsync(int id);
+        /// <summary> Добавление объекта в базу данных </summary>
+        Task Create(TContext context);
 
-        /// <summary>
-        /// Получение объекта по имени
-        /// </summary>
-        /// <param name="name">Имя</param>
-        /// <returns></returns>
-        Task<PersonContext> GetPersonByNameAsync(string name);
+        /// <summary> Получение объекта из базы данных </summary>
+        Task<TContext> Read(Guid id);
 
-        /// <summary>
-        /// Получение перечня объектов от стартового номера определенной длины
-        /// </summary>
-        /// <param name="startId">Стартовый номер</param>
-        /// <param name="quantity">Длина</param>
-        /// <returns></returns>
-        Task<List<PersonContext>> GetPersonsByIdAsync(int startId, int quantity);
+        /// <summary> Обновление объекта в базе данных </summary>
+        Task Update(TContext context);
 
-        /// <summary>
-        /// Добавление объекта
-        /// </summary>
-        /// <param name="person">Добавляемый объект</param>
-        /// <returns></returns>
-        Task AddPersonAsync(PersonContext person);
-
-        /// <summary>
-        /// Изменение объекта
-        /// </summary>
-        /// <param name="person">Изменяемый объект</param>
-        /// <returns></returns>
-        Task ChangePersonAsync(PersonContext person);
-
-        /// <summary>
-        /// Удаление объекта по идентификатору
-        /// </summary>
-        /// <param name="id">Идентификатор</param>
-        /// <returns></returns>
-        Task DeletePersonByIdAsync(int id);
+        /// <summary> Удаление объекта из базы данных </summary>
+        Task Delete(Guid id);
     }
 }

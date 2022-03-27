@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace GeekBrains.TimeSheets.DB.Exceptions
 {
-    public class PersonFoundException : Exception
+    public class TimeSheetException : Exception
     {
-        public PersonFoundException(string message) : base(message) { }
+        public TimeSheetException(string message) : base(message) { }
     }
 }
