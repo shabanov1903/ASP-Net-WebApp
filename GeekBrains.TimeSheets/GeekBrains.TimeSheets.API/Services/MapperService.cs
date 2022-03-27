@@ -1,5 +1,6 @@
 ﻿using GeekBrains.TimeSheets.API.DTO;
 using GeekBrains.TimeSheets.DB.Context;
+using GeekBrains.TimeSheets.Domain.Models;
 using System.Reflection;
 using System.Text;
 
@@ -64,6 +65,60 @@ namespace GeekBrains.TimeSheets.API.Services
                 UserId = dto.UserId,
                 IsDeleted = dto.IsDeleted
             };
+        }
+
+        public InvoiceContext Map(InvoiceDTO dto)
+        {
+            var invoice = new InvoiceModel().Create(dto.Id, dto.UserId, dto.Month, dto.Sum);
+            return Map(invoice);
+        }
+
+        public InvoiceContext Map(InvoiceModel model)
+        {
+            return new InvoiceContext()
+            {
+                Id = model.Id,
+                UserId = model.UserId,
+                DateStart = model.DateStart,
+                DateEnd = model.DateEnd,
+                Sum = model.Sum
+            };
+        }
+
+        public List<SheetDTO> Map(List<SheetModel> listOfModel)
+        {
+            var result = new List<SheetDTO>();
+            foreach (var sheet in listOfModel)
+            {
+                result.Add(new SheetDTO()
+                {
+                    Id = sheet.Id,
+                    Date = sheet.Date,
+                    EmployeeId = sheet.EmployeeId,
+                    Amount = sheet.Amount,
+                    IsApproved = sheet.IsApproved,
+                    ApprovedDate = sheet.ApprovedDate
+                });
+            }
+            return result;
+        }
+
+        public List<SheetModel> Map(List<SheetDTO> listOfDTO)
+        {
+            var result = new List<SheetModel>();
+            foreach (var sheet in listOfDTO)
+            {
+                result.Add(new SheetModel()
+                {
+                    Id = sheet.Id,
+                    Date = sheet.Date,
+                    EmployeeId = sheet.EmployeeId,
+                    Amount = sheet.Amount,
+                    IsApproved = sheet.IsApproved,
+                    ApprovedDate = sheet.ApprovedDate
+                });
+            }
+            return result;
         }
     }
 }

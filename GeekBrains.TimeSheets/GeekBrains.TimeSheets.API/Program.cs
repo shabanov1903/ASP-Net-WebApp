@@ -1,6 +1,7 @@
 using GeekBrains.TimeSheets.API.Services;
 using GeekBrains.TimeSheets.DB.Context;
 using GeekBrains.TimeSheets.DB.Repository;
+using GeekBrains.TimeSheets.Domain.Operations;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -78,6 +79,7 @@ builder.Services.AddDbContext<TimeSheetsDbContext>(options => options.UseSqlite(
 builder.Services.AddScoped<IRepository<UserContext>, UserRepositiry>();
 builder.Services.AddScoped<IFind<UserContext, Expression<Func<UserContext, bool>>>, UserRepositiry>();
 builder.Services.AddScoped<IRepository<EmployeeContext>, EmployeeRepositiry>();
+builder.Services.AddScoped<IDomainRepository<InvoiceContext>, InvoiceRepository>();
 
 var app = builder.Build();
 

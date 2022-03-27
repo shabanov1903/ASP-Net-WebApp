@@ -15,8 +15,8 @@ namespace GeekBrains.TimeSheets.API.Controllers
         private readonly IFind<UserContext, Expression<Func<UserContext, bool>>> _finder;
         private readonly UserService _user;
         private readonly IRepository<UserContext> _database;
-        public AuthenticateController(UserService user, IFind<UserContext,
-                                      Expression<Func<UserContext, bool>>> finder,
+        public AuthenticateController(UserService user, 
+                                      IFind<UserContext, Expression<Func<UserContext, bool>>> finder,
                                       IRepository<UserContext> database)
         {
             _user = user;
