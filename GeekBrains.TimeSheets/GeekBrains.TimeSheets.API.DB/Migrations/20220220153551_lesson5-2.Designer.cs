@@ -3,6 +3,7 @@ using System;
 using GeekBrains.TimeSheets.DB.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GeekBrains.TimeSheets.DB.Migrations
 {
     [DbContext(typeof(TimeSheetsDbContext))]
-    partial class TimeSheetsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220220153551_lesson5-2")]
+    partial class lesson52
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.2");
@@ -37,32 +39,6 @@ namespace GeekBrains.TimeSheets.DB.Migrations
                     b.ToTable("Employees");
                 });
 
-            modelBuilder.Entity("GeekBrains.TimeSheets.DB.Context.InvoiceContext", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("DateEnd")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("DateStart")
-                        .HasColumnType("TEXT");
-
-                    b.Property<decimal>("Sum")
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId")
-                        .IsUnique();
-
-                    b.ToTable("Invoices");
-                });
-
             modelBuilder.Entity("GeekBrains.TimeSheets.DB.Context.SheetContext", b =>
                 {
                     b.Property<Guid>("Id")
@@ -81,17 +57,12 @@ namespace GeekBrains.TimeSheets.DB.Migrations
                     b.Property<Guid>("EmployeeId")
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid?>("InvoiceId")
-                        .HasColumnType("TEXT");
-
                     b.Property<bool>("IsApproved")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
                     b.HasIndex("EmployeeId");
-
-                    b.HasIndex("InvoiceId");
 
                     b.ToTable("Sheets");
                 });
@@ -133,17 +104,6 @@ namespace GeekBrains.TimeSheets.DB.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("GeekBrains.TimeSheets.DB.Context.InvoiceContext", b =>
-                {
-                    b.HasOne("GeekBrains.TimeSheets.DB.Context.UserContext", "User")
-                        .WithOne("Invoice")
-                        .HasForeignKey("GeekBrains.TimeSheets.DB.Context.InvoiceContext", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("GeekBrains.TimeSheets.DB.Context.SheetContext", b =>
                 {
                     b.HasOne("GeekBrains.TimeSheets.DB.Context.EmployeeContext", "Employee")
@@ -152,13 +112,7 @@ namespace GeekBrains.TimeSheets.DB.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("GeekBrains.TimeSheets.DB.Context.InvoiceContext", "Invoice")
-                        .WithMany("Sheets")
-                        .HasForeignKey("InvoiceId");
-
                     b.Navigation("Employee");
-
-                    b.Navigation("Invoice");
                 });
 
             modelBuilder.Entity("GeekBrains.TimeSheets.DB.Context.EmployeeContext", b =>
@@ -166,16 +120,9 @@ namespace GeekBrains.TimeSheets.DB.Migrations
                     b.Navigation("Sheets");
                 });
 
-            modelBuilder.Entity("GeekBrains.TimeSheets.DB.Context.InvoiceContext", b =>
-                {
-                    b.Navigation("Sheets");
-                });
-
             modelBuilder.Entity("GeekBrains.TimeSheets.DB.Context.UserContext", b =>
                 {
                     b.Navigation("Employee");
-
-                    b.Navigation("Invoice");
                 });
 #pragma warning restore 612, 618
         }

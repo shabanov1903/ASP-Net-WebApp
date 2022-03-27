@@ -1,6 +1,8 @@
 ﻿using GeekBrains.TimeSheets.API.DTO;
 using GeekBrains.TimeSheets.DB.Context;
+using GeekBrains.TimeSheets.Domain.Models;
 using System.Reflection;
+using System.Text;
 
 namespace GeekBrains.TimeSheets.API.Services
 {
@@ -12,8 +14,10 @@ namespace GeekBrains.TimeSheets.API.Services
             {
                 Id = context.Id,
                 Username = context.Username,
-                PasswordHash = ByteToShort(context.PasswordHash),
-                Role = context.Role
+                PasswordHash = Convert.ToBase64String(context.PasswordHash),
+                Role = context.Role,
+                Salt = Convert.ToBase64String(context.Salt),
+                RefreshToken = context.RefreshToken
             };
         }
 
@@ -46,8 +50,10 @@ namespace GeekBrains.TimeSheets.API.Services
             {
                 Id = dto.Id,
                 Username = dto.Username,
-                PasswordHash = ShortToByte(dto.PasswordHash),
-                Role = dto.Role
+                PasswordHash = Convert.FromBase64String(dto.PasswordHash),
+                Role = dto.Role,
+                Salt = Convert.FromBase64String(dto.Salt),
+                RefreshToken = dto.RefreshToken
             };
         }
 
@@ -61,24 +67,58 @@ namespace GeekBrains.TimeSheets.API.Services
             };
         }
 
-        private byte[] ShortToByte(short[] mass)
+        public InvoiceContext Map(InvoiceDTO dto)
         {
-            byte[] outputMass = new byte[mass.Length];
-            for(int i = 0; i < mass.Length; i++)
-            {
-                outputMass[i] = (byte)mass[i];
-            }
-            return outputMass;
+            var invoice = new InvoiceModel().Create(dto.Id, dto.UserId, dto.Month, dto.Sum);
+            return Map(invoice);
         }
 
-        private short[] ByteToShort(byte[] mass)
+        public InvoiceContext Map(InvoiceModel model)
         {
-            short[] outputMass = new short[mass.Length];
-            for (int i = 0; i < mass.Length; i++)
+            return new InvoiceContext()
             {
-                outputMass[i] = mass[i];
+                Id = model.Id,
+                UserId = model.UserId,
+                DateStart = model.DateStart,
+                DateEnd = model.DateEnd,
+                Sum = model.Sum
+            };
+        }
+
+        public List<SheetDTO> Map(List<SheetModel> listOfModel)
+        {
+            var result = new List<SheetDTO>();
+            foreach (var sheet in listOfModel)
+            {
+                result.Add(new SheetDTO()
+                {
+                    Id = sheet.Id,
+                    Date = sheet.Date,
+                    EmployeeId = sheet.EmployeeId,
+                    Amount = sheet.Amount,
+                    IsApproved = sheet.IsApproved,
+                    ApprovedDate = sheet.ApprovedDate
+                });
             }
-            return outputMass;
+            return result;
+        }
+
+        public List<SheetModel> Map(List<SheetDTO> listOfDTO)
+        {
+            var result = new List<SheetModel>();
+            foreach (var sheet in listOfDTO)
+            {
+                result.Add(new SheetModel()
+                {
+                    Id = sheet.Id,
+                    Date = sheet.Date,
+                    EmployeeId = sheet.EmployeeId,
+                    Amount = sheet.Amount,
+                    IsApproved = sheet.IsApproved,
+                    ApprovedDate = sheet.ApprovedDate
+                });
+            }
+            return result;
         }
     }
 }

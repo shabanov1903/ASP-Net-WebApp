@@ -2,6 +2,7 @@
 using GeekBrains.TimeSheets.API.Services;
 using GeekBrains.TimeSheets.DB.Context;
 using GeekBrains.TimeSheets.DB.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.Sqlite;
@@ -9,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GeekBrains.TimeSheets.API.Controllers
 {
+    [Authorize]
     [Route("[controller]")]
     [ApiController]
     public class EmployeesController : ControllerBase
