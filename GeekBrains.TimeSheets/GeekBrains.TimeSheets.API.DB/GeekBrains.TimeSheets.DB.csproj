@@ -18,4 +18,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\GeekBrains.TimeSheets.Domain\GeekBrains.TimeSheets.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
